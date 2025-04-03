@@ -1,2 +1,77 @@
 # ignore all files
 venv
+# General
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Virtual Environment
+venv/
+.env
+*.venv
+
+# Django-specific
+*.log
+*.pot
+*.pyc
+*.swp
+media/
+static/
+staticfiles/
+
+# Database
+*.sqlite3
+*.db
+
+# Secret settings
+.env
+config/settings_local.py
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Migrations (optional, if you don't want auto-generated migration files in VCS)
+*/migrations/*.py
+*/migrations/*.pyc
+
+# Pip dependency cache
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+testfile.txt
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Pytest
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Celery
+celerybeat-schedule
+
+# Django Debug Toolbar cache
+debug_toolbar/
+
+# Sentry release files
+.sentryclirc

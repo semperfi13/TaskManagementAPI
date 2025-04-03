@@ -88,13 +88,13 @@ REST_FRAMEWORK = {
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "task_api",
-        "USER": "adamou",
-        "PASSWORD": "admin",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "task_management",
+        "USER": "admin",
+        "PASSWORD": "password",
         "HOST": "localhost",
-        "PORT": "5432",
-    }
+        "PORT": "3306",
+    },
 }
 
 
