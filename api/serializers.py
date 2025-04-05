@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Task
 import datetime
 from django.contrib.auth.models import User
+from rest_framework.validators import UniqueValidator
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -18,6 +19,10 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+
     class Meta(object):
         model = User
         fields = ["id", "username", "password", "email"]

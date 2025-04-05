@@ -4,7 +4,13 @@ Task Management API using Django and Django REST Framework.
 
 The API will allow users to manage their tasks by creating, updating, deleting, and marking tasks as complete or incomplete .
 
-## Register - Login and Logout - Endpoints
+## API URL
+
+### Can test it using [Postman](https://www.postman.com/)
+
+**URL:** [semperfi.pythonanywhere.com](https://semperfi.pythonanywhere.com)
+
+# Register - Login and Logout - Endpoints
 
 ### Register
 
@@ -15,9 +21,9 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 ```json
 {
-  "username": "username",
-  "email": "email@example.com",
-  "password": "1234567890"
+  "username": "john_doe",
+  "email": "john.doe@example.com",
+  "password": "strongpassword123"
 }
 ```
 
@@ -26,9 +32,9 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 ```json
 {
   "id": 1,
-  "username": "username",
-  "email": "email@example.com",
-  "token": "d23f7f8628486d12215b09a5658d23d1d4c766ed",
+  "username": "john_doe",
+  "email": "john.doe@example.com",
+  "token": "d23f7f8628486d12215b09a5658d23d1d4c766ed"
 }
 ```
 
@@ -41,8 +47,8 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 ```json
 {
-  "username": "username",
-  "password": "1234567890"
+  "username": "john_doe",
+  "password": "strongpassword123"
 } 
 ```
 
@@ -53,9 +59,9 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
   "token": "8e2b6194a363d1c8135e5874a9b9dd31d91310a2",
   "user": {
     "id": 5,
-    "username": "username",
+    "username": "john_doe",
     "password": "pbkdf2_sha256$870000$LWah2qztMPpqlriPOTYwWH$RnC2nnTbuPazJ5isufxhI6PiRcnrzG22Rj+Iuc8S+X4=",
-    "email": "email187@gmail.com"
+    "email": "john.doe@example.com"
   }
 }
 
@@ -65,7 +71,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **Endpoint:** `POST /api/logout/`  
 **Content-Type:** `application/json`
-**Authorization Header:** Token <your_token>
+**Authorization :** Token <your_token>
 
 #### Response
 
@@ -74,6 +80,155 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
     "message": "Successfully logged out"
 }
 
+```
+
+# Task CRUD
+
+### Read
+
+**URL:** `GET /api/tasks/`  
+**Content-Type:** `application/json`
+**Authorization :** Token <your_token>
+
+```json
+[
+  {
+    "id": 3,
+    "title": "Complete project report",
+    "description": "Finish writing the final project report for the client",
+    "due_date": "2025-11-11",
+    "priority": "High",
+    "status": "Pending",
+    "created_at": "2025-04-05T15:38:14.381704Z",
+    "user": 3
+  },
+  {
+    "id": 4,
+    "title": "Email client about project updates",
+    "description": "Send an update email to the client regarding project progress",
+    "due_date": "2025-11-11",
+    "priority": "Medium",
+    "status": "Pending",
+    "created_at": "2025-04-05T15:38:15.037682Z",
+    "user": 3
+  },
+  {
+    "id": 6,
+    "title": "Prepare for team meeting",
+    "description": "Prepare slides and agenda for the next team meeting",
+    "due_date": "2025-11-11",
+    "priority": "Low",
+    "status": "Pending",
+    "created_at": "2025-04-05T15:40:03.720260Z",
+    "user": 3
+  }
+]
+```
+
+### Create
+
+**URL:** `POST /api/tasks/create`  
+**Content-Type:** `application/json`
+**Authorization :** Token <your_token>
+
+### Body
+
+```json
+{
+  "title": "Prepare the project proposal",
+  "description": "Create the initial project proposal document",
+  "due_date": "2025-05-01",
+  "priority": "High",
+  "status": "Pending",
+  "user": 3
+} 
+```
+
+#### Response
+
+```json
+{
+    "id": 6,
+    "title": "Prepare the project proposal",
+    "description": "Create the initial project proposal document",
+    "due_date": "2025-05-01",
+    "priority": "High",
+    "status": "Pending",
+    "created_at": "2025-04-05T15:40:03.720260Z",
+    "user": 3
+}
+
+```
+
+### Details
+
+**URL:** `GET /api/tasks/retrieve/<pk>/`  
+**Content-Type:** `application/json`
+**Authorization :** Token <your_token>
+
+#### Response
+
+```json
+{
+  "id": 5,
+  "title": "Complete the market research report",
+  "description": "Finish writing and compiling the market research report for Q2",
+  "due_date": "2025-04-12",
+  "priority": "High",
+  "status": "Pending",
+  "created_at": "2025-04-05T15:38:15.683309Z",
+  "user": 3
+}
+
+```
+
+### Update
+
+**URL:** `PUT /api/tasks/update/<pk>/`  
+**Content-Type:** `application/json`
+**Authorization :** Token <your_token>
+
+### Body
+
+```json
+{
+  "title": "Complete market research report",
+  "description": "Finalize the report based on client feedback",
+  "due_date": "2025-04-15",
+  "priority": "High",
+  "status": "In Progress",
+  "user": 3
+}
+
+```
+
+#### Response
+
+```json
+{
+  "title": "Complete market research report",
+  "description": "Finalize the report based on client feedback",
+  "due_date": "2025-04-15",
+  "priority": "High",
+  "status": "In Progress",
+  "user": 3
+}
+
+```
+
+### Delete
+
+**URL:** `Delete /api/tasks/delete/<pk>/`  
+**Content-Type:** `application/json`
+**Authorization :** Token <your_token>
+
+
+#### Response
+
+```json
+{
+  "message": "Task has been delete Successfully"
+}
 ```
 
 ## License

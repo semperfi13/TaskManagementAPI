@@ -11,6 +11,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
+from django.http import Http404
 
 
 class TaskFilter(Filters.FilterSet):
@@ -29,10 +31,18 @@ class TaskFilter(Filters.FilterSet):
         fields = ["status", "priority", "due_date"]
 
 
-class CustomTaskListView(generics.ListAPIView):
+"""Task Management (CRUD)"""
+
+
+def get_object(pk, request):
+    try:
+        return Task.objects.get(pk=pk, user=request.user)
+    except Task.DoesNotExist:
+        raise Http404
+
+
+class ListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
     filterset_class = TaskFilter
     filter_backends = [
         DjangoFilterBackend,
@@ -42,6 +52,14 @@ class CustomTaskListView(generics.ListAPIView):
     search_fields = ["status", "priority", "due_date"]
     ordering_fields = ["priority", "due_date"]
     ordering = ["status", "priority", "due_date"]
+
+    def get(self, request):
+        # title = request.query_params.get("title", "")
+
+        tasks = Task.objects.filter(user=self.request.user)
+
+        serializer = TaskSerializer(tasks, many=True)
+        return Response(serializer.data)
 
 
 class CreateView(generics.CreateAPIView):
@@ -54,26 +72,35 @@ class CreateView(generics.CreateAPIView):
 
 class DetailView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = TaskSerializer
 
-    def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
+    def get(self, request, pk):
+        task = get_object(pk, request)
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
 
 
-class UpdateView(generics.UpdateAPIView):
+class UpdateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = TaskSerializer
 
-    def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
+    def put(self, request, pk):
+        task = get_object(pk, request)
+        serializer = TaskSerializer(task, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class DeleteView(generics.DestroyAPIView):
+class DeleteView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = TaskSerializer
 
-    def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
+    def delete(self, request, pk):
+        task = get_object(pk, request)
+        task.delete()
+        return Response(
+            {"message": "Task has been delete Successfully"},
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
 
 """ USER LOGIN, vREGISTER AND LOGOUT API VIEW"""
