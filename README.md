@@ -65,13 +65,50 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **Endpoint:** `POST /api/logout/`  
 **Content-Type:** `application/json`
-**Authorization Header:** Token <your_token>
+**Authorization :** Token <your_token>
 
 #### Response
 
 ```json
 {
     "message": "Successfully logged out"
+}
+
+```
+
+## Task CRUD
+
+### Create
+
+**URL:** `POST /api/tasks/create`  
+**Content-Type:** `application/json`
+**Authorization :** Token <your_token>
+
+### Body
+
+```json
+{
+  "title": "This field is required.",
+  "description": "This field is required.",
+  "due_date": "2025-11-11",
+  "priority": "High",
+  "status": "Completed",
+  "user": 3
+} 
+```
+
+#### Response
+
+```json
+{
+    "id": 6,
+    "title": "This field is required.",
+    "description": "This field is required.",
+    "due_date": "2025-11-11",
+    "priority": "High",
+    "status": "Completed",
+    "created_at": "2025-04-05T15:40:03.720260Z",
+    "user": 3
 }
 
 ```
