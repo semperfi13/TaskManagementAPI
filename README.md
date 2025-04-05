@@ -115,7 +115,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
   {
     "id": 6,
     "title": "Prepare for team meeting",
-    "description": "Prepare slides and agenda for the next team meeting",
+    "desjohn_doecription": "Prepare slides and agenda for the next team meeting",
     "due_date": "2025-11-11",
     "priority": "Low",
     "status": "Pending",

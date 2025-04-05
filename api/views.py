@@ -159,12 +159,14 @@ def register(request):
         try:
             serializer = UserSerializer(data=request.data)
             if serializer.is_valid():
-                serializer.save()
-                user = User.objects.get(username=request.data["username"])
-                user.set_password(request.data["password"])
-                user.save()
+                user = User.objects.create_user(
+                    username=request.data["username"],
+                    email=request.data.get("email", ""),
+                    password=request.data["password"],
+                )
                 token = Token.objects.create(user=user)
-                return Response({"token": token.key, "user": serializer.data})
+                user_data = UserSerializer(user).data
+                return Response({"token": token.key, "user": user_data})
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
