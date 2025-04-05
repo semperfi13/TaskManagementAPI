@@ -5,7 +5,7 @@ from .serializers import TaskSerializer, UserSerializer
 from rest_framework import permissions, status
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as Filters
-from rest_framework import filters
+from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
@@ -13,22 +13,19 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from django.http import Http404
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class TaskFilter(Filters.FilterSet):
-    PRIORITY_CHOICES = [("Low", "Low"), ("Medium", "Medium"), ("High", "High")]
-    STATUS_CHOICES = [("Pending", "Pending"), ("Completed", "Completed")]
-    due_date = Filters.DateFilter()
-    priority = Filters.CharFilter(
-        max_length=25, choices=PRIORITY_CHOICES, default="Medium"
-    )
-    status = Filters.CharFilter(
-        max_length=25, choices=STATUS_CHOICES, default="Pending"
-    )
-
     class Meta:
         model = Task
         fields = ["status", "priority", "due_date"]
+
+
+class TaskOrdering(Filters.OrderingFilter):
+    class Meta:
+        model = Task
+        fields = ["priority"]
 
 
 """Task Management (CRUD)"""
@@ -44,21 +41,24 @@ def get_object(pk, request):
 class ListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     filterset_class = TaskFilter
-    filter_backends = [
-        DjangoFilterBackend,
-        filters.OrderingFilter,
-        filters.SearchFilter,
-    ]
-    search_fields = ["status", "priority", "due_date"]
+    filter_backends = [OrderingFilter]
     ordering_fields = ["priority", "due_date"]
-    ordering = ["status", "priority", "due_date"]
+    ordering = ["priority", "due_date"]
 
     def get(self, request):
-        # title = request.query_params.get("title", "")
+        tasks = Task.objects.filter(user=request.user)
+        filterset = TaskFilter(request.GET, queryset=tasks)
 
-        tasks = Task.objects.filter(user=self.request.user)
+        if filterset.is_valid():
+            tasks = filterset.qs
+        else:
+            return Response(
+                {"message": "Task not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
         serializer = TaskSerializer(tasks, many=True)
+
         return Response(serializer.data)
 
 
