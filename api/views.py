@@ -97,7 +97,10 @@ class DeleteView(APIView):
     def delete(self, request, pk):
         task = get_object(pk, request)
         task.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {"message": "Task has been delete Successfully"},
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
 
 """ USER LOGIN, vREGISTER AND LOGOUT API VIEW"""
