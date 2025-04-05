@@ -14,6 +14,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from django.http import Http404
 from django_filters.rest_framework import DjangoFilterBackend
+import datetime
 
 
 class TaskFilter(Filters.FilterSet):
@@ -84,11 +85,37 @@ class UpdateView(APIView):
 
     def put(self, request, pk):
         task = get_object(pk, request)
+        if task.status == "Completed":
+            return Response(
+                {
+                    "message": "Sorry, you can't update a task that is already completed."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         serializer = TaskSerializer(task, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateStatusView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def patch(self, request, pk):
+        task = get_object(pk, request)
+
+        if task.status == "Pending":
+            task.status = "Completed"
+            task.timestamp = datetime.datetime.now()
+        else:
+            task.status = "Pending"
+            task.timestamp = None
+
+        task.save()
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
 
 
 class DeleteView(APIView):
