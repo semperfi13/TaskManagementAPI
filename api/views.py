@@ -63,12 +63,15 @@ class ListView(APIView):
         return Response(serializer.data)
 
 
-class CreateView(generics.CreateAPIView):
+class CreateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = TaskSerializer
 
-    def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
+    def post(self, request, format=None):
+        serializer = TaskSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DetailView(generics.RetrieveAPIView):

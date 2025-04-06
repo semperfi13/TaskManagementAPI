@@ -9,6 +9,7 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = "__all__"
+        read_only_fields = ["user"]
 
     def validate_due_date(self, data):
         today = datetime.date.today()
