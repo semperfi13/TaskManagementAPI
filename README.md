@@ -115,7 +115,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
   {
     "id": 6,
     "title": "Prepare for team meeting",
-    "description": "Prepare slides and agenda for the next team meeting",
+    "desjohn_doecription": "Prepare slides and agenda for the next team meeting",
     "due_date": "2025-11-11",
     "priority": "Low",
     "status": "Pending",
@@ -229,6 +229,54 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 {
   "message": "Task has been delete Successfully"
 }
+```
+
+### Update Task status
+
+**URL:** `PATCH /api/task/update/<pk>/status`  
+**Content-Type:** `application/json`
+**Authorization :** Token <your_token>
+
+
+#### Response
+
+```json
+{
+  "id": 5,
+  "title": "Complete market research report",
+  "description": "Finalize the report based on client feedback",
+  "due_date": "2025-04-15",
+  "priority": "High",
+  "status": "In Progress",
+  "user": 3,
+  "created_at": "2025-04-05T15:38:15.683309Z",
+  "timestamp": "2025-04-05T22:05:27.675817Z",
+}
+```
+
+### Filter Task
+
+**URL:** `GET /api/tasks/?priority=<priority>&Status=<status>&due_date=<Y-m-d>`  
+**Content-Type:** `application/json`
+**Authorization :** Token <your_token>
+
+
+#### Response
+
+```json
+[
+  {
+    "id": 5,
+    "title": "Complete market research report",
+    "description": "Finalize the report based on client feedback",
+    "due_date": "2025-04-12",
+    "priority": "Low",
+    "status": "Pending",
+    "created_at": "2025-04-05T15:38:15.683309Z",
+    "timestamp": null,
+    "user": 3
+  }
+]
 ```
 
 ## License

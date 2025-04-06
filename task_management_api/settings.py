@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-smpn&^rta^ux)15u0ve+d6@(ya*69hqx54b3a#4m2+pz_8n-wc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://semperfi.pythonanywhere.com/','semperfi.pythonanywhere.com']
+ALLOWED_HOSTS = [
+    "https://semperfi.pythonanywhere.com/",
+    "semperfi.pythonanywhere.com",
+    "http://127.0.0.1:8000",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -39,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "api",
     "rest_framework",
+    "django_filters",
     "rest_framework.authtoken",
 ]
 
@@ -81,6 +87,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
     ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 """ "DEFAULT_PERMISSION_CLASSES": [

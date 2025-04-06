@@ -5,6 +5,7 @@ from .views import (
     DetailView,
     UpdateView,
     DeleteView,
+    UpdateStatusView,
 )
 from . import views
 
@@ -17,4 +18,7 @@ urlpatterns = [
     path("tasks/retrieve/<pk>/", DetailView.as_view(), name="task-retrieve"),
     path("task/update/<pk>/", UpdateView.as_view(), name="task-update"),
     path("task/delete/<pk>/", DeleteView.as_view(), name="task-delete"),
+    path(
+        "task/update/<pk>/status", UpdateStatusView.as_view(), name="task-update-status"
+    ),
 ]
