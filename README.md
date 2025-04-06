@@ -71,7 +71,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **Endpoint:** `POST /api/logout/`  
 **Content-Type:** `application/json`
-**Authorization :** Token <your_token>
+**Authorization :** `Token <your_token>`
 
 #### Response
 
@@ -88,7 +88,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **URL:** `GET /api/tasks/`  
 **Content-Type:** `application/json`
-**Authorization :** Token <your_token>
+**Authorization :** `Token <your_token>`
 
 ```json
 [
@@ -129,7 +129,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **URL:** `POST /api/tasks/create`  
 **Content-Type:** `application/json`
-**Authorization :** Token <your_token>
+**Authorization :** `Token <your_token>`
 
 ### Body
 
@@ -164,7 +164,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **URL:** `GET /api/tasks/retrieve/<pk>/`  
 **Content-Type:** `application/json`
-**Authorization :** Token <your_token>
+**Authorization :** `Token <your_token>`
 
 #### Response
 
@@ -186,7 +186,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **URL:** `PUT /api/tasks/update/<pk>/`  
 **Content-Type:** `application/json`
-**Authorization :** Token <your_token>
+**Authorization :** `Token <your_token>`
 
 ### Body
 
@@ -220,7 +220,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **URL:** `Delete /api/tasks/delete/<pk>/`  
 **Content-Type:** `application/json`
-**Authorization :** Token <your_token>
+**Authorization :** `Token <your_token>`
 
 
 #### Response
@@ -235,7 +235,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **URL:** `PATCH /api/task/update/<pk>/status`  
 **Content-Type:** `application/json`
-**Authorization :** Token <your_token>
+**Authorization :** `Token <your_token>`
 
 
 #### Response
@@ -258,7 +258,7 @@ The API will allow users to manage their tasks by creating, updating, deleting, 
 
 **URL:** `GET /api/tasks/?priority=<priority>&Status=<status>&due_date=<Y-m-d>`  
 **Content-Type:** `application/json`
-**Authorization :** Token <your_token>
+**Authorization :** `Token <your_token>`
 
 
 #### Response
